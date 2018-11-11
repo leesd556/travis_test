@@ -1,7 +1,16 @@
 language: go
 
 go:
-- '1.10'
+- '1.11'
+
+env:
+  - GO111MODULE=on
+
+  OS: linux
 
 install:
 - go mod vendor
+
+script:
+- 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then bash ./travis/run_on_pull_requests.sh; fi'
+- 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then bash ./travis/run_on_non_pull_requests.sh; fi'
