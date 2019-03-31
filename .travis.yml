@@ -4,13 +4,15 @@ go:
 - '1.11'
 
 env:
-- GO111MODULE=on
+  - GO111MODULE=on
 
-OS: linux
+  OS: linux
 
-install:
-- go mod vendor
+before_install:
+  - go get -t -v ./...
 
 script:
-- 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then bash ./travis/run_on_pull_requests.sh; fi'
-- 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then bash ./travis/run_on_non_pull_requests.sh; fi'
+  - 'bash ./travis/test_coverage.sh;'
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
