@@ -1,7 +1,7 @@
 language: go
 
 go:
-- '1.11'
+  - '1.11'
 
 env:
   - GO111MODULE=on
@@ -10,6 +10,12 @@ env:
 
 before_install:
   - go get -t -v ./...
+
+install:
+  - go get golang.org/x/tools/cmd/goimports
+  - go get golang.org/x/tools/cmd/cover
+  - go get github.com/mattn/goveralls
+  - go mod vendor
 
 script:
   - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then bash ./travis/run_on_pull_requests.sh; fi'
